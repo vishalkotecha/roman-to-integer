@@ -5,40 +5,38 @@ import java.util.Map;
 
 public class Converter {
 
-    static Map<Character, Integer> numbersMap = new HashMap<>();
-       
+    static Map<Character, Integer> map = new HashMap<>();
+
     static {
-        numbersMap.put('X', 10);
-        numbersMap.put('I', 1);
-        numbersMap.put('V', 5);
-        numbersMap.put('L', 50);
-        numbersMap.put('C', 100);
-        numbersMap.put('D', 500);
-        numbersMap.put('M', 1000);
+        map.put('X', 10);
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
     }
 
     public static int fromRomanToNumeric(String romanStr) {
 
         char[] charArray = romanStr.toCharArray();
-
         int result = 0;
-        int len = charArray.length;
-
-        for (int i = 0; i < len; i++) {
+        int prev = 0;
+        for (int i = charArray.length - 1; i >= 0; i--) {
             char currElement = charArray[i];
-
-            if (i != len - 1 && getValue(currElement) < getValue(charArray[i + 1])) {
-                result += getValue(charArray[i + 1]) - getValue(currElement);
-                i++;
+            if (getValue(currElement) < prev) {
+                result -= getValue(currElement);
             } else {
                 result += getValue(currElement);
             }
+            prev = getValue(currElement);
         }
         return result;
+
     }
 
     private static int getValue(char currElement) {
-        return numbersMap.get(currElement);
+        return map.get(currElement);
     }
 
 }
